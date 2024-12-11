@@ -11,8 +11,21 @@ public class StartButton : MonoBehaviour
     {
         StartBtn.onClick.AddListener(() =>
         {
+            StartBtn.interactable = false;
             StartBtn.transform.DOScale(0, 0.3f);
-            GameManager.Instance.OnEndGame?.Invoke();
+            GameManager.Instance.StartGame();
         });
+        GameManager.Instance.OnRestartGame += OnRestart;
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnRestartGame -= OnRestart;
+
+    }
+
+    private void OnRestart()
+    {
+        StartBtn.transform.localScale = Vector3.one;
+        StartBtn.interactable = true;
     }
 }
